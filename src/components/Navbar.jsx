@@ -4,13 +4,18 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { LuUserRound } from "react-icons/lu";
 import Image from "next/image";
+import { authClient } from "@/lib/auth-client";
+import { Avatar, Button, toast } from "@heroui/react";
+import { redirect } from "next/navigation";
+
+
 
 
 // 1. Declare your navigation items in an array
 const NAV_LINKS = [
     { name: "Home", href: "/", active: true },
     { name: "Destinations", href: "/destinations" },
-    { name: "My Bookings", href: "/bookings" },
+    { name: "My Bookings", href: "/my-bookings" },
     { name: "Admin", href: "/admin" },
     { name: "Add Destination", href: "/add-destination" },
 ];
@@ -22,6 +27,25 @@ const USER_LINKS = [
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
+
+    const {
+        data: session,
+        isPending,
+        error,
+    } = authClient.useSession()
+    const user = session?.user
+
+    const handleSignOut = async () => {
+        await authClient.signOut({
+            fetchOptions: {
+                onSuccess: () => {
+                    toast.success('logout successfully')
+                    redirect('/login')
+                },
+            },
+        });
+
+    }
 
     return (
         <nav className="w-full bg-white border-b border-gray-200 px-6 py-4">
@@ -76,14 +100,42 @@ const Navbar = () => {
                         <LuUserRound />
                         <span>Profile</span>
                     </button>
-                    {USER_LINKS.map((link) => (
-                        <Link key={link.name} href={link.href} className="text-gray-700 hover:text-black font-medium">
-                            {link.name}
-                        </Link>
-                    ))}
+                    {
+                        user ? <>
+                            <Avatar>
+                                <Avatar.Image alt="John Doe" referrerPolicy="no-referrer" src={user?.image} />
+                                <Avatar.Fallback>{user?.name.charAt(0)}</Avatar.Fallback>
+                            </Avatar>
+                            <Button
+                                variant="danger"
+                                className={"rounded-xl"}
+                                onClick={handleSignOut}
+                            >
+                                Logout
+                            </Button>
+                        </> :
+                            <>
+                                {USER_LINKS.map((link) => (
+                                    <Link key={link.name} href={link.href} className="text-gray-700 hover:text-black font-medium">
+                                        {link.name}
+                                    </Link>
+                                ))}
+                            </>
+                    }
+
                 </div>
 
-                <div className="md:hidden w-8"></div>
+                <div className="md:hidden w-8">
+                    {
+                        user ? <>
+                            <Avatar aria-label="Menu">
+                                <Avatar.Image alt="John Doe" referrerPolicy="no-referrer" src={user?.image} />
+                                <Avatar.Fallback>{user?.name.charAt(0)}</Avatar.Fallback>
+                            </Avatar>
+                        </>:
+                        <>  </>
+                        }
+                </div>
             </div>
 
             {/* Mobile Dropdown (Mapped from Arrays) */}

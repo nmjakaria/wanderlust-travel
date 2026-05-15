@@ -1,14 +1,12 @@
 import Image from 'next/image';
-import { Button, Card, Input } from '@heroui/react';
 import React from 'react';
-import { FaArrowRightLong, FaCalendarDays, FaCheck } from 'react-icons/fa6';
-import { CiEdit } from 'react-icons/ci';
+import { FaCalendarDays, FaCheck } from 'react-icons/fa6';
 import { GoArrowLeft } from 'react-icons/go';
 import { PiMapPinLineBold } from 'react-icons/pi';
-import { RiDeleteBin6Line } from 'react-icons/ri';
 import EditDestination from '@/components/EditDestination';
 import DeleteDestinationDialog from '@/components/DeleteDestinationDialog';
 import Link from 'next/link';
+import BookingCard from '@/components/BookingCard';
 
 const DestinationDetailsPage = async ({ params }) => {
     const { id } = await params;
@@ -37,7 +35,7 @@ const DestinationDetailsPage = async ({ params }) => {
             </div>
 
             {/* Hero Image Section */}
-            <div className="relative w-full h-[300px] md:h-[500px] rounded-3xl overflow-hidden mb-12 shadow-2xl">
+            <div className="relative w-full h-75 md:h-125 rounded-3xl overflow-hidden mb-12 shadow-2xl">
                 <Image
                     src={imageUrl}
                     alt={destinationName}
@@ -102,43 +100,7 @@ const DestinationDetailsPage = async ({ params }) => {
 
                 {/* Right Column: Sticky Booking Card */}
                 <div className="relative">
-                    <Card className="sticky top-10 p-8 border-none shadow-[0_20px_50px_rgba(0,0,0,0.05)] rounded-[32px] bg-white">
-                        <div className="space-y-1 mb-8">
-                            <p className="text-gray-400 text-xs font-bold uppercase tracking-widest">Price starting from</p>
-                            <div className="flex items-baseline gap-2">
-                                <span className="text-5xl font-black text-cyan-600">${price}</span>
-                                <span className="text-gray-400 font-medium">/ person</span>
-                            </div>
-                        </div>
-
-                        <div className="space-y-5 mb-8">
-                            <div className="space-y-2">
-                                <label className="text-sm font-bold text-gray-700 ml-1">Select Date</label>
-                                <Input
-                                    type="date"
-                                    defaultValue="2026-05-15"
-                                    className="rounded-2xl"
-                                    variant="flat"
-                                    size="lg"
-                                />
-                            </div>
-                            <Button
-                                className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-bold h-16 text-lg rounded-2xl shadow-lg shadow-cyan-200 transition-all active:scale-95 flex items-center justify-center gap-3"
-                            >
-                                Book Now
-                                <FaArrowRightLong />
-                            </Button>
-                        </div>
-
-                        <div className="space-y-4 pt-4 border-t border-gray-100">
-                            {["Free cancellation up to 7 days", "Travel insurance included", "24/7 customer support"].map((text, i) => (
-                                <div key={i} className="flex items-center gap-3 text-sm font-semibold text-gray-500">
-                                    <FaCheck className="text-green-500" />
-                                    <span>{text}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </Card>
+                    <BookingCard destination={destination} />
                 </div>
             </div>
         </div>

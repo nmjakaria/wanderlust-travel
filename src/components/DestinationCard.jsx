@@ -10,7 +10,7 @@ const DestinationCard = ({ destination }) => {
     return (
         <Card className="group cursor-pointer bg-transparent">
             {/* Image Container */}
-            <div className="relative overflow-hidden rounded-xl h-[250px]">
+            <div className="relative overflow-hidden rounded-xl h-62.5">
                 <Image
                     alt={destinationName}
                     src={imageUrl}

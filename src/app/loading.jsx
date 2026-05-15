@@ -3,7 +3,7 @@ import { LuPlane } from 'react-icons/lu';
 
 const Loading = () => {
     return (
-        <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-white/80 backdrop-blur-md">
+        <div className="fixed inset-0 z-100 flex flex-col items-center justify-center bg-white/80 backdrop-blur-md">
             <div className="relative flex flex-col items-center">
                 {/* 1. Animated Plane/Travel Icon */}
                 <div className="relative w-24 h-24 mb-6">
@@ -18,7 +18,7 @@ const Loading = () => {
 
                 {/* 2. Text Content */}
                 <h2 className="text-3xl font-black text-gray-800 tracking-tight flex items-center gap-1">
-                    Wander<span className="text-cyan-600">last</span>
+                    Wander<span className="text-cyan-600">lust</span>
                 </h2>
                 
                 <div className="mt-3 flex flex-col items-center gap-2">
@@ -36,7 +36,7 @@ const Loading = () => {
             {/* 3. Progress Bar Bottom */}
             <div className="absolute bottom-0 left-0 w-full h-1.5 bg-gray-100/50 overflow-hidden">
                 <div 
-                    className="h-full bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 w-1/3"
+                    className="h-full bg-linear-to-r from-cyan-400 via-blue-500 to-indigo-600 w-1/3"
                     style={{
                         animation: 'loadingProgress 2s infinite ease-in-out'
                     }}
