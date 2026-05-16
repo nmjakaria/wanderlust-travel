@@ -8,9 +8,17 @@ export async function proxy(request) {
     const session = await auth.api.getSession({
         headers: await headers()
     })
+    // if (!session) {
+    //     return NextResponse.redirect(new URL('/login?message=Please login to view your bookings&type=error', request.url))
+    // }
     if (!session) {
-        return NextResponse.redirect(new URL('/login', request.url))
+        const loginUrl = new URL('/login', request.url)
+        loginUrl.searchParams.set('message', 'Please login to view this page')
+        loginUrl.searchParams.set('type', 'error')
+
+        return NextResponse.redirect(loginUrl)
     }
+    return NextResponse.next()
 }
 
 export const config = {
