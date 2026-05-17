@@ -15,7 +15,14 @@ const MyBookingPage = async () => {
     })
     const user = session?.user;
 
-    const res = await fetch(`http://localhost:5000/booking/${user?.id}`)
+    const { token } = await auth.api.getToken({
+        headers: await headers()
+    })
+    const res = await fetch(`http://localhost:5000/booking/${user?.id}`, {
+        headers: {
+            authorization: `Bearer ${token}`
+        }
+    })
     const bookings = await res.json();
 
     return (
@@ -85,7 +92,7 @@ const MyBookingPage = async () => {
 
                                     {/* Actions Section */}
                                     <div className="flex md:flex-col justify-end gap-3 shrink-0 self-end md:self-center">
-                                        <CancelBokingAlert bookingId = {booking._id} />
+                                        <CancelBokingAlert bookingId={booking._id} />
 
                                         <Button
                                             className="bg-[#00A3C4] text-white font-semibold rounded-lg min-w-25"

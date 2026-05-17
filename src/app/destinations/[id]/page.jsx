@@ -7,10 +7,19 @@ import EditDestination from '@/components/EditDestination';
 import DeleteDestinationDialog from '@/components/DeleteDestinationDialog';
 import Link from 'next/link';
 import BookingCard from '@/components/BookingCard';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
 
 const DestinationDetailsPage = async ({ params }) => {
     const { id } = await params;
-    const res = await fetch(`http://localhost:5000/destination/${id}`);
+    const {token} = await auth.api.getToken({
+        headers: await headers()
+    })
+    const res = await fetch(`http://localhost:5000/destination/${id}`,{
+        headers:{
+            authorization: `Bearer ${token}`
+        }
+    });
     const destination = await res.json();
     const { imageUrl, destinationName, country, price, duration, description } = destination;
 

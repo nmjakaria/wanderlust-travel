@@ -28,15 +28,18 @@ const BookingCard = ({ destination }) => {
             price,
             departureDate: new Date(departureDate)
         }
+        const { data: tokenData } = await authClient.token()
+
         const res = await fetch('http://localhost:5000/booking', {
             method: "POST",
-            headers:{
-                "content-type": "application/json"
+            headers: {
+                "content-type": "application/json",
+                authorization: `Bearer ${tokenData?.token}`,
             },
             body: JSON.stringify(bookingData)
         })
         const data = await res.json()
-        if(res.ok){
+        if (res.ok) {
             toast.success(`Book ${destinationName} successfully`);
         }
     }
@@ -107,7 +110,7 @@ const BookingCard = ({ destination }) => {
                         </DatePicker.Popover>
                     </DatePicker>
                     <Button
-                    onClick={handleBooking}
+                        onClick={handleBooking}
                         className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-bold h-16 text-lg rounded-2xl shadow-lg shadow-cyan-200 transition-all active:scale-95 flex items-center justify-center gap-3"
                     >
                         Book Now
